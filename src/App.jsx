@@ -30,7 +30,8 @@ function App() {
     setCurrentPage(prev => prev - 1)
   }
 
-  const addToPin = (id, note) => {
+  const addToPin = (e,id, note) => {
+    e.stopPropagation()
     const exits = pinNote.find(note => note.$id === id)
     if (exits) {
       setPopupMsg({ msg: "Note Already Added to Pin", type: "error" })
@@ -103,8 +104,8 @@ function App() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {
             Array.isArray(notes.documents) && notes.documents.length > 0 ? notes.documents.map((note) => (
-              <div className='relative' onClick={() => { setShowEditNote(true); setEditNoteData(note) }} key={note.$id} >
-                <button onClick={() => addToPin(note.$id, note)} className='absolute top-2 right-2 hover:cursor-pointer hover:scale-110'>📌</button>
+              <div className='relative cursor-pointer hover:scale-105' onClick={(e) => {e.stopPropagation(); setShowEditNote(true); setEditNoteData(note) }} key={note.$id} >
+                <button onClick={(e) => addToPin(e,note.$id, note)} className='absolute top-2 right-2 hover:cursor-pointer hover:scale-110'>📌</button>
                 <button onClick={(e) => handleDeleteBtn(e, note.$id)} className='absolute bottom-2 right-2 hover:cursor-pointer hover:scale-110'>❌</button>
                 <Note title={note.title} body={note.body} tagline={note.tagline} />
 
